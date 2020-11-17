@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,13 +25,13 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textName = findViewById(R.id.text_name);
-        textEmail = findViewById(R.id.text_email);
+        editName = findViewById(R.id.edit_name);
+        editEmail = findViewById(R.id.edit_email);
         btnHere = findViewById(R.id.btn_here);
         btnHere.setOnClickListener(btnHereListener);
     }
 
-    View.OnClickListener btnHereListener = new View.OnClickListener() {
+    View.OnClickListener btnHereListener  = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             dialogView = View.inflate(MainActivity2.this, R.layout.dialog1, null);
@@ -45,10 +48,12 @@ public class MainActivity2 extends AppCompatActivity {
     DialogInterface.OnClickListener positiveButtonListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            editName = dialogView.findViewById(R.id.edit_name);
-            editEmail = dialogView.findViewById(R.id.edit_email);
-            textName.setText(editName.getText().toString() + "님 입니다.");
-            textEmail.setText(editEmail.getText().toString() + "이메일 주소입니다.");
+            editName.setText(editName.getText().toString());
+            editEmail.setText(editEmail.getText().toString());
+//            editName = dialogView.findViewById(R.id.edit_name);
+//            editEmail = dialogView.findViewById(R.id.edit_email);
+//            textName.setText(editName.getText().toString() + "님 입니다.");
+//            textEmail.setText(editEmail.getText().toString() + "이메일 주소입니다.");
         }
     };
 
@@ -60,6 +65,10 @@ public class MainActivity2 extends AppCompatActivity {
             textToast = toastView.findViewById(R.id.text_toast);
             textToast.setText("취소버튼을 누르셨네요.");
             toast.setView(toastView);
+            Display display = ((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+            int xOffset = (int) (Math.random() * display.getWidth());
+            int yOffset = (int) (Math.random() * display.getHeight());
+            toast.setGravity(Gravity.TOP | Gravity.LEFT, xOffset, yOffset);
             toast.show();
         }
     };
